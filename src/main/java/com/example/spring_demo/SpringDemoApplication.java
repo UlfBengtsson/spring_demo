@@ -1,6 +1,8 @@
 package com.example.spring_demo;
 
+import com.example.spring_demo.daos.CarDaoImpl;
 import com.example.spring_demo.daos.StudentDao;
+import com.example.spring_demo.models.Car;
 import com.example.spring_demo.models.Student;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +21,7 @@ public class SpringDemoApplication {
 	}
 
 	@Bean//by default a singleton
-	public CommandLineRunner ourConsole(StudentDao studentDao) {
+	public CommandLineRunner ourConsole(StudentDao studentDao, CarDaoImpl carDao) {
 		return (args -> {
 			Student studentJohn = studentDao.create(new Student("John","Doo","a@a.a"));
 
@@ -29,7 +31,14 @@ public class SpringDemoApplication {
 
 			log.info(foundStudent.toString());
 
+			Car saab = new Car();
+			saab.setName("SAAB 900 Turbo");
 
+			log.info(saab.toString());
+
+			Car car = carDao.save(saab);
+
+			log.info(car.toString());
 		});
 	}
 }
